@@ -1,0 +1,6 @@
+POST /delete_multiple_items HTTP/1.1
+Host: localhost:8000
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 17
+
+key=apple%2Cgrape

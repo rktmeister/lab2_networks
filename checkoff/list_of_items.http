@@ -1,0 +1,2 @@
+GET /list_of_items HTTP/1.1
+Host: localhost:8000
