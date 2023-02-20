@@ -1,13 +1,15 @@
 from fastapi import FastAPI, Response, Form, File
 from typing import Optional
-from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
-import redis, asyncio
+import redis
 
 
 # https://github.com/chesnutcase/networks_lab2
 
 app = FastAPI()
+
+@app.get("/")
+def get_root():
+    return "Welcome to Lab2!"
 
 def get_redis_client():
     return redis.Redis(host="redis")
@@ -58,7 +60,7 @@ async def add_item(response: Response, key: str = Form(), value: int = Form()):
     redis_client = get_redis_client()
     if key and value:
         redis_client.set(key, value)
-        return "Key Value added!s"
+        return "Key Value added!"
     response.status_code = 400
     return "Invalid Form Data!"
 
@@ -69,6 +71,10 @@ def delete_item(response: Response, key: str):
     if not key:
         response.status_code = 400
         return "Please provide a key!"
+    check_key = redis_client.get(key)
+    if not check_key:
+        response.status_code = 404
+        return f"Key {check_key} does not exist!"
     redis_client.delete(key)
     return "Deleted key and value from database!"
 
@@ -85,8 +91,15 @@ async def delete_multiple_items(response: Response, key: str = Form()):
     ## Delete multiple keys and values from the database
     if not key:
         response.status_code = 400
-        return "Please provide a key!"
+        return "Please provide key(s)!"
+    # remove spaces from key
+    key = key.strip()
     key_arr = key.split(",")
+    for key in key_arr:
+        check_key = redis_client.get(key)
+        if not check_key:
+            response.status_code = 404
+            return f"Key {check_key} does not exist!"
     for key in key_arr:
         redis_client.delete(key)
     return "Deleted multiple keys and values from database!"
