@@ -56,7 +56,7 @@ def get_item(response: Response, key: str):
     return {key: redis_client.get(key)}
 
 @app.post("/add_item")
-async def add_item(response: Response, key: str = Form(), value: int = Form()):
+async def add_item(response: Response, key: str = Form(), value: str = Form()):
     redis_client = get_redis_client()
     if key and value:
         redis_client.set(key, value)
@@ -74,7 +74,7 @@ def delete_item(response: Response, key: str):
     check_key = redis_client.get(key)
     if not check_key:
         response.status_code = 404
-        return f"Key {check_key} does not exist!"
+        return f"Key {key} does not exist!"
     redis_client.delete(key)
     return "Deleted key and value from database!"
 
@@ -99,7 +99,7 @@ async def delete_multiple_items(response: Response, key: str = Form()):
         check_key = redis_client.get(key)
         if not check_key:
             response.status_code = 404
-            return f"Key {check_key} does not exist!"
+            return f"Key {key} does not exist!"
     for key in key_arr:
         redis_client.delete(key)
     return "Deleted multiple keys and values from database!"
