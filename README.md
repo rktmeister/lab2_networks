@@ -26,9 +26,9 @@ The upload file does a POST request in the form of (http://127.0.0.1:8000/upload
 ## Idempotent routes
 Idempotency as defined by Mozilla MDN Web Docs:
 
-"*An HTTP method is idempotent if the intended effect on the server of making a single request is the same as the effect of making several identical requests.
+"*An HTTP method is idempotent if the intended effect on the server of making a single request is the same as the effect of making several identical requests.*
 
-This does not necessarily mean that the request does not have any unique side effects: for example, the server may log every request with the time it was received. Idempotency only applies to effects intended by the client: for example, a POST request intends to send data to the server, or a DELETE request intends to delete a resource on the server*.
+*This does not necessarily mean that the request does not have any unique side effects: for example, the server may log every request with the time it was received. Idempotency only applies to effects intended by the client: for example, a POST request intends to send data to the server, or a DELETE request intends to delete a resource on the server*.
 
 All ***safe methods are idempotent***, as well as PUT and DELETE. The ***POST method is not idempotent***."
 
