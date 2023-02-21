@@ -34,4 +34,8 @@ All ***safe methods are idempotent***, as well as PUT and DELETE. The ***POST me
 
 This means the idempotent routes are those that implement safe methods such as **GET** and **DELETE**. This includes (http://127.0.0.1:8000/get_item/{key}), (http://127.0.0.1:8000/delete_item/{key}), and (http://127.0.0.1:8000/list_of_items)
 
+The reason for this is for both (/get_item/{key}) and (/list_of_items) are both GET requests and they do not change the state of the server.
+
+For (/delete_item/{key}) this is safe as when sending the same delete request e.g. (/delete_item/orange), the server will only delete **IF** the item exists within the database.
+
 
