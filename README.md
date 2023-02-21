@@ -22,3 +22,16 @@ The POST request will take in a string which are seperated with commas. If no ke
 ### Upload file
 [Challenge 2]
 The upload file does a POST request in the form of (http://127.0.0.1:8000/upload_file/{key}). If the request fails due to no file being placed, then it will return a 400 error with "Please provide a file!". Else, it will sucessfully set the key-value pair with the value being the content of the file itself along with "File uploaded!"
+
+## Idempotent routes
+Idempotency as defined by Mozilla MDN Web Docs:
+
+"*An HTTP method is idempotent if the intended effect on the server of making a single request is the same as the effect of making several identical requests.
+
+This does not necessarily mean that the request does not have any unique side effects: for example, the server may log every request with the time it was received. Idempotency only applies to effects intended by the client: for example, a POST request intends to send data to the server, or a DELETE request intends to delete a resource on the server*.
+
+All ***safe methods are idempotent***, as well as PUT and DELETE. The ***POST method is not idempotent***."
+
+This means the idempotent routes are those that implement safe methods such as **GET** and **DELETE**. This includes (http://127.0.0.1:8000/get_item/{key}), (http://127.0.0.1:8000/delete_item/{key}), and (http://127.0.0.1:8000/list_of_items)
+
+
